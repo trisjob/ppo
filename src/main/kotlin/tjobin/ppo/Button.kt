@@ -9,13 +9,15 @@ class Button {
     val x: Float
     val y: Float
     val width: Float
+    val heigth: Float
     val action: () -> Unit
 
-    constructor(title: String, x: Float, y: Float, width: Float, action: () -> Unit) {
+    constructor(title: String, x: Float, y: Float, width: Float, heigth: Float, action: () -> Unit) {
         this.title = title
         this.x = x
         this.y = y
         this.width = width
+        this.heigth = heigth
         this.action = action
     }
 
@@ -26,19 +28,17 @@ class Button {
     val top: Float
         get() = y
     val bottom: Float
-        get() = y + height
+        get() = y + heigth
 
     fun isWithin(x: Float, y: Float) = x in left..right && y in top..bottom
-
-    private val height = 40f
 
     fun draw(g: PGraphics) {
         g.fill(176)
         g.stroke(64)
-        g.rect(x, y, width, height)
+        g.rect(x, y, width, heigth)
         g.textFont(Launcher.font)
         g.fill(0)
         g.textAlign(PApplet.CENTER)
-        g.text(title, x + width / 2, y + height - 12)
+        g.text(title, x + width / 2, y + heigth / 2)
     }
 }
