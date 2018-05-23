@@ -1,15 +1,11 @@
 package tjobin.ppo
 
 import processing.core.PApplet
-import processing.core.PConstants
 import processing.core.PFont
-import processing.event.MouseEvent
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.TimerTask
-import java.util.Timer
 
 class Launcher : PApplet() {
 
@@ -46,13 +42,6 @@ class Launcher : PApplet() {
             .forEach { line ->
                 val (dateStr, name) = line.split(":", limit = 2)
                 events.add(Event(LocalDate.parse(dateStr.trim()), name.trim()))
-            }
-        file.readLines()
-            .filter { it.isNotEmpty() }
-            .filter { it.contains("//") }
-            .forEach { line ->
-                val (slash, name) = line.split(" ", limit = 2)
-//                PConstant.text()
             }
     }
 
