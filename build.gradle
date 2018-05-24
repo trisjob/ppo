@@ -3,10 +3,15 @@ buildscript {
 
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
+}
+
+plugins {
+    id "com.github.cr0.macappbundle" version "3.0.1"
 }
 
 group 'tjobin'
@@ -32,4 +37,23 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+macAppBundle {
+    appName = "Tasks Line"
+    appCategory = "public.app-category.utilities"
+//    icon = "gradle/icon/fooapp.icns"
+    agent = true
+
+    mainClassName = "processing.core.PApplet"
+
+    bundleJRE = true
+    bundleExecutable = "TasksLine"
+    bundleIdentifier = "tjobin.ppo"
+
+    arguments << 'tjobin.ppo.Launcher'
+
+    bundleExtras.put("NSHighResolutionCapable", "true")
+    
+    archiveName = "Tasks Line ${version}"
 }
