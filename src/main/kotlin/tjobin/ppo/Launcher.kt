@@ -13,16 +13,11 @@ class Launcher : PApplet() {
         lateinit var font: PFont
     }
 
-//    private var save = Button("save", 50f, 20f, 30f, 20f) {
-//}
-
     override fun settings() {
         size(1200, 800)
     }
 
     private var events = mutableListOf<Event>()
-
-    private var title = mutableListOf<Event>()
 
     override fun setup() {
         loadFile()
@@ -40,14 +35,15 @@ class Launcher : PApplet() {
             .filter { !it.contains("//") }
             .filter { it.contains(":") }
             .forEach { line ->
-                val (dateStr, name) = line.split(":", limit = 2)
-                events.add(Event(LocalDate.parse(dateStr.trim()), name.trim()))
+                val (dateStr, done, name) = line.split(":", limit = 3)
+                events.add(Event(LocalDate.parse(dateStr.trim()), name.trim(), done.trim().toBoolean()))
             }
     }
 
     fun drawTimeLine() {
 
-
+        val yPosition = height / 2f
+        val today = LocalDate.now()
         val firstDate = events.first().date
         val lastDate = events.last().date
         val days = ChronoUnit.DAYS.between(firstDate, lastDate)
@@ -55,9 +51,17 @@ class Launcher : PApplet() {
         val lineWidth = width - margin * 3
         val lineThick = 5
         val ychange = 60
+        val indicator = 20f
+        val indicatorX = (ChronoUnit.DAYS.between(firstDate, today)).toFloat() / days.toFloat() * lineWidth + margin
 
         fill(100)
-        rect(margin.toFloat(), 400f - lineThick, lineWidth.toFloat(), lineThick.toFloat())
+        rect(margin.toFloat(), yPosition - lineThick, lineWidth.toFloat(), lineThick.toFloat())
+
+        stroke(150f, 150f, 200f)
+        strokeWeight(4f)
+        line(indicatorX, yPosition - indicator - lineThick, indicatorX, yPosition + indicator)
+        strokeWeight(1f)
+        stroke(0)
 
         events.forEachIndexed { idx, event ->
             val daysFromFirst = ChronoUnit.DAYS.between(firstDate, event.date)
@@ -69,10 +73,11 @@ class Launcher : PApplet() {
             line(x, 400f, x, 400f - ychange * mody)
 
             fill(0)
-            val buttonTest = Button(displayText, x, 400f - ychange * mody * 2, textWidth(displayText) + 10, (ychange * mody).toFloat()) {
+            val buttonTest = EventButton(displayText, x, 400f - ychange * mody * 2, textWidth(displayText) + 10, (ychange * mody).toFloat(), event.done) {
                 text("lol", 15f, 70f)
             }
             buttonTest.draw(graphics)
+
         }
     }
 
