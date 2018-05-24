@@ -3,8 +3,10 @@ package tjobin.ppo
 import processing.core.PApplet
 import processing.core.PGraphics
 
-class Button {
+open class Button {
 
+    open val bgColor: Triple<Int, Int, Int>
+        get() = Triple(200, 150, 150)
     val title: String
     val x: Float
     val y: Float
@@ -32,8 +34,8 @@ class Button {
 
     fun isWithin(x: Float, y: Float) = x in left..right && y in top..bottom
 
-    fun draw(g: PGraphics) {
-        g.fill(176)
+    open fun draw(g: PGraphics) {
+        g.fill(bgColor)
         g.stroke(64)
         g.rect(x, y, width, heigth)
         g.textFont(Launcher.font)
