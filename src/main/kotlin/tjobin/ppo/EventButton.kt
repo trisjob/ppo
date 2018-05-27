@@ -10,6 +10,5 @@ class EventButton : Button {
 
     constructor(title: String, x: Float, y: Float, width: Float, heigth: Float, done: Boolean, action: () -> Unit) : super(title, x, y, width, heigth, action) {
         this.done = done
-
     }
 }

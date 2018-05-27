@@ -42,20 +42,21 @@ class Launcher : PApplet() {
 
     fun drawTimeLine() {
 
+        textFont(font)
         val yPosition = height / 2f
         val today = LocalDate.now()
         val firstDate = events.first().date
         val lastDate = events.last().date
         val days = ChronoUnit.DAYS.between(firstDate, lastDate)
-        val margin = 50
-        val lineWidth = width - margin * 3
+        val margin = 30
+        val lineWidth = width - margin * 2 - textWidth(events.last().name)
         val lineThick = 5
         val ychange = 60
         val indicator = 20f
         val indicatorX = (ChronoUnit.DAYS.between(firstDate, today)).toFloat() / days.toFloat() * lineWidth + margin
 
         fill(100)
-        rect(margin.toFloat(), yPosition - lineThick, lineWidth.toFloat(), lineThick.toFloat())
+        rect(margin.toFloat(), yPosition - lineThick, lineWidth, lineThick.toFloat())
 
         stroke(150f, 150f, 200f)
         strokeWeight(4f)
@@ -73,9 +74,10 @@ class Launcher : PApplet() {
             line(x, 400f, x, 400f - ychange * mody)
 
             fill(0)
-            val buttonTest = EventButton(displayText, x, 400f - ychange * mody * 2, textWidth(displayText) + 10, (ychange * mody).toFloat(), event.done) {
+            val buttonTest = EventButton(displayText, x, yPosition - ychange * mody * 2, textWidth(displayText) + 10, (ychange * mody).toFloat(), event.done) {
                 text("lol", 15f, 70f)
             }
+            System.out.println(textWidth(displayText) + 10)
             buttonTest.draw(graphics)
 
         }
